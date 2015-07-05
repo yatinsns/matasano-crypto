@@ -20,6 +20,7 @@ def print_probable_single_byte_xor_keys_for_cipher(cipher)
 
     if count > 20
       puts "key : 0x#{probable_key.to_s 16} with count: #{count}"
+      puts "Encrypted key: #{cipher}"
       puts "Decrypted key: #{result}"
     end
   end
