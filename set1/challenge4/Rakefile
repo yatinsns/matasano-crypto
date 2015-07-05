@@ -1,0 +1,5 @@
+require "./find.rb"
+
+task :default do
+  detect_single_character_xor_from_file "./file.txt"
+end
