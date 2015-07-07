@@ -1,0 +1,7 @@
+require_relative "./repeat_xor.rb"
+
+task :default do
+  string = "Burning 'em, if you ain't quick and nimble I go crazy when I hear a cymbal"
+  key = "ICE"
+  puts encrypt_string_using_repeat_xor_key(string, key)
+end
