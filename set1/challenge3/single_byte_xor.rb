@@ -7,13 +7,13 @@ def new_hex(key)
 end
 
 def repeat_xor_key_for_length(key, length)
-  Array.new(length, new_hex(key)).join
+  Array.new((length / key.length) + 1, key).join.slice(0, length)
 end
 
 def print_probable_single_byte_xor_keys_for_cipher(cipher)
   (0..255).each do |probable_key|
-    full_key = repeat_xor_key_for_length(probable_key,
-                                         (cipher.length + 1) / 2)
+    formatted_key = new_hex(probable_key)
+    full_key = repeat_xor_key_for_length(formatted_key, cipher.length)
     
     result = [xor(cipher, full_key)].pack("H*")
     count = result.scan(/[ETAOIN SHRDLU]/i).size
