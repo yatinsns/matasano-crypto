@@ -18,7 +18,7 @@ def probable_single_byte_xor_key_for_binary_cipher(binary_cipher)
     result_binary_string = xor_binary_strings(binary_cipher, full_key)
     result_string = decode_from_binary result_binary_string
 
-    current_count = result_string.scan(/[ETAOIN SHRDLU]/i).size
+    current_count = result_string.scan(/[A-Z ]/i).size
     result = {
       :key => formatted_key,
       :count => current_count,
