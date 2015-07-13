@@ -13,7 +13,7 @@ end
 
 # hexadecimal
 def encode_to_hex(string)
-  string.unpack("H*")
+  string.unpack("H*").first
 end
 
 def decode_from_hex(hex_string)
@@ -22,7 +22,7 @@ end
 
 # binary
 def encode_to_binary(string)
-  string.unpack("B*")
+  string.unpack("B*").first
 end
 
 def decode_from_binary(binary_string)
