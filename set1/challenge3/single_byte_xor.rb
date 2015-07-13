@@ -1,27 +1,30 @@
 require_relative "../challenge2/xor.rb"
+require_relative "./string_additions.rb"
 
-def new_hex(key)
-  hex_value = key.to_s 16
-  hex_value = "0" + hex_value unless hex_value.length == 2
-  hex_value
+def new_binary_key_from_i(key)
+  key.to_s(2).fixed_width_length_with_left_padding(8, "0")
 end
 
-def repeat_xor_key_for_length(key, length)
-  Array.new((length / key.length) + 1, key).join.slice(0, length)
+def probable_single_byte_xor_key_for_hex_cipher(hex_cipher)
+  binary_cipher = encode_to_binary(decode_from_hex(hex_cipher))
+  probable_single_byte_xor_key_for_binary_cipher binary_cipher
 end
 
-def print_probable_single_byte_xor_keys_for_cipher(cipher)
-  (0..255).each do |probable_key|
-    formatted_key = new_hex(probable_key)
-    full_key = repeat_xor_key_for_length(formatted_key, cipher.length)
+def probable_single_byte_xor_key_for_binary_cipher(binary_cipher)
+  (0..255).inject(Hash.new) do |result, probable_key|
+    formatted_key = new_binary_key_from_i(probable_key)
+    full_key = formatted_key.repeat_for_length binary_cipher.length
     
-    result = [xor(cipher, full_key)].pack("H*")
-    count = result.scan(/[ETAOIN SHRDLU]/i).size
+    result_binary_string = xor_binary_strings(binary_cipher, full_key)
+    result_string = decode_from_binary result_binary_string
 
-    if count > 20
-      puts "key : 0x#{probable_key.to_s 16} with count: #{count}"
-      puts "Encrypted key: #{cipher}"
-      puts "Decrypted key: #{result}"
-    end
+    current_count = result_string.scan(/[ETAOIN SHRDLU]/i).size
+    result = {
+      :key => formatted_key,
+      :count => current_count,
+      :result => result_string
+    } if result[:count] == NIL || result[:count] < current_count
+    
+    result
   end
 end

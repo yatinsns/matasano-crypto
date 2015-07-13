@@ -1,5 +1,5 @@
 require_relative "./single_byte_xor.rb"
 
 task :default do
-  print_probable_single_byte_xor_keys_for_cipher("1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736")
+  puts probable_single_byte_xor_key_for_hex_cipher("1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736")
 end
