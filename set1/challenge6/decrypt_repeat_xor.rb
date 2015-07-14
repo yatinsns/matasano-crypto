@@ -42,8 +42,6 @@ def get_normalized_weights_info_for_keysize_in_range(binary_string, start_keysiz
     end
     weight = (total_hd / count) / keysize
     weights_info[keysize] = weight
-    puts "keysize: #{keysize} hamming_distance: #{total_hd} count: #{count}"
-    puts ""
   end
   weights_info
 end
