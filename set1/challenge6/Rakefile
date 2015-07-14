@@ -6,5 +6,5 @@ end
 
 task :decrypt do
   filename = "file.txt"
-  decrypt_file_with_name filename
+  puts decrypt_file_with_name filename
 end

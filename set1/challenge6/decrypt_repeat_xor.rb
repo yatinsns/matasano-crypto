@@ -67,11 +67,5 @@ def decrypt_file_with_name(filename)
 
   xor_binary_key =  decrypt_binary_string_with_keysize(binary_string, probable_keysize)
   result_binary_string = encrypt_binary_string_using_repeat_xor_binary_key(binary_string, xor_binary_key)
-  puts decode_from_binary(result_binary_string)
-=begin
-  (0...binary_string.length).step(probable_keysize * 8).each do |index|
-    bs = [binary_string.slice(index, probable_keysize * 8)].pack("B*").unpack("H*").first
-    puts [xor(bs, xor_key)].pack("H*")
-  end
-=end
+  decode_from_binary(result_binary_string)
 end
