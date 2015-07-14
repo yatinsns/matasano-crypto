@@ -14,6 +14,13 @@ module Matrix
       end
     end
 
+    def get_bytes
+      COLUMN_COUNT.times.inject(Array.new) do |result, col|
+        get_column(col).each {|byte| result.push byte}
+        result
+      end
+    end
+
     def get_row(number)
       raise "Incorrect row" unless number < ROW_COUNT
       @bytes[number]  

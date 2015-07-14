@@ -4,6 +4,11 @@ include Matrix
 
 describe "Matrix" do
   describe "Matrix_128" do
+    it "should return correct bytes" do
+      matrix = Matrix_128.new((1..16).to_a)
+      matrix.get_bytes.should eql (1..16).to_a
+    end
+
     it "should get correct rows" do
       matrix = Matrix_128.new((1..16).to_a)
       matrix.get_row(0).should eql [1, 5, 9, 13]
