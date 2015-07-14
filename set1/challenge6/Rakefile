@@ -1,0 +1,10 @@
+require "./decrypt_repeat_xor.rb"
+
+task :test_hamming_distance do
+  puts hamming_distance_between_strings "this is a test", "wokka wokka!!!x"
+end
+
+task :decrypt do
+  filename = "file.txt"
+  decrypt_file_with_name filename
+end
