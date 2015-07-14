@@ -8,7 +8,7 @@ def encode_to_base64(string)
 end
 
 def decode_from_base64(base64_string)
-  base64_string.unpack("m0")
+  base64_string.unpack("m0").first
 end
 
 # hexadecimal
