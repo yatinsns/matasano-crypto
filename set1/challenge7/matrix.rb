@@ -5,7 +5,10 @@ module Matrix
 
     def initialize(bytes)
       raise "Incorrect count of bytes for matrix_128" unless bytes.length == (ROW_COUNT * COLUMN_COUNT)
-      
+      configure bytes
+    end
+
+    def configure(bytes)
       # Need to convert bytes columnwise for 4X4 matrix
       @bytes = ROW_COUNT.times.map do |row|
         COLUMN_COUNT.times.map do |col|
@@ -19,6 +22,11 @@ module Matrix
         get_column(col).each {|byte| result.push byte}
         result
       end
+    end
+
+    def set_bytes(bytes)
+      raise "Incorrect count of bytes for matrix_128" unless bytes.length == (ROW_COUNT * COLUMN_COUNT)
+      configure bytes
     end
 
     def get_row(number)
