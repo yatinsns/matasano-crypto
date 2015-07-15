@@ -16,7 +16,7 @@ module AES
     message_bytes = encode_to_binary(message).scan(/.{8}/).map do |str|
       str.to_i 2
     end
-    puts message_bytes.length
+
     state = Matrix_128.new(message_bytes)
 
     cipher_bytes = encode_to_binary(cipher_key).scan(/.{8}/).map do |str|
