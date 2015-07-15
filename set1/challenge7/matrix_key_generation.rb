@@ -1,5 +1,6 @@
 require "./matrix.rb"
 require "./substitution.rb"
+require "./mix_columns.rb"
 
 module Matrix
   class Matrix_128
@@ -18,9 +19,8 @@ module Matrix
     def generate_next
       @rcon = case @rcon
         when nil then [1, 0, 0, 0]
-        else [@rcon[0] * 2, 0, 0, 0]
+        else [MixColumns.mult_2(@rcon[0]), 0, 0, 0]
       end
-      raise "Generate next called more than #{ROUNDS_COUNT} times" unless @rcon[0] <= 2 ** ROUNDS_COUNT 
 
       rot_word_bytes = self.get_rot_word_bytes
       
@@ -31,6 +31,8 @@ module Matrix
         end
         self.set_column(col_number, rot_word_bytes)
       end
+
+      self
     end
   end
 end
