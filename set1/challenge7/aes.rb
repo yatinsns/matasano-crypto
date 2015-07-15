@@ -9,8 +9,8 @@ include Matrix
 module AES
   def self.encrypt_128_ecb(message, cipher_key)
     # Suppose message be of length 16 bytes only for now.
-    state = Matrix_128.new_with_128_bits_string(message)
-    cipher = Matrix_128.new_with_128_bits_string(cipher_key)
+    state = Matrix_128.new_with_string(message)
+    cipher = Matrix_128.new_with_string(cipher_key)
 
     # begin
     state.add_round_key cipher
