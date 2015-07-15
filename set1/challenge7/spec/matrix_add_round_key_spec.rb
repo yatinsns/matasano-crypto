@@ -1,4 +1,4 @@
-require_relative "../add_round_key.rb"
+require_relative "../matrix_add_round_key.rb"
 
 describe "Matrix add round key" do
   it "should add round key matrix_128" do
