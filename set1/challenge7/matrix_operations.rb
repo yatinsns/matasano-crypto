@@ -1,0 +1,5 @@
+require "./matrix_add_round_key.rb"
+require "./matrix_shift_rows.rb"
+require "./matrix_substitution.rb"
+require "./matrix_mix_columns.rb"
+require "./matrix_key_generation.rb"
