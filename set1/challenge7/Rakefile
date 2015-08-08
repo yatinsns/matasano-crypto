@@ -1,0 +1,5 @@
+require_relative "./decrypt_aes.rb"
+
+task :default do
+  puts decrypt_file("7.txt")
+end
