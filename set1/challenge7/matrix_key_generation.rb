@@ -34,5 +34,17 @@ module Matrix
 
       self
     end
+
+    def get_round_ciphers
+      ciphers = Array.new
+      ciphers << Matrix_128.new(self.get_bytes)
+
+      10.times do |turn|
+        self.generate_next
+        ciphers << Matrix_128.new(self.get_bytes)
+      end
+
+      ciphers
+    end
   end
 end
