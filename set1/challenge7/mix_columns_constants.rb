@@ -6,7 +6,7 @@ module MixColumns
   end
 
   def self.inverse_mix_columns_matrix_128
-    Matrix_128.new([14, 11, 13, 9, 9, 14, 11, 13, 13, 9, 14, 11, 11, 13, 9, 14])
+    Matrix_128.new([14, 9, 13, 11, 11, 14, 9, 13, 13, 11, 14, 9, 9, 13, 11, 14])
   end
 
   def self.mult_2_lookup
