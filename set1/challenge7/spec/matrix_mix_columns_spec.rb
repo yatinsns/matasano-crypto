@@ -10,4 +10,14 @@ describe "Matrix mix columns" do
     matrix_128.get_column(2).should eql [72, 248, 211, 122]
     matrix_128.get_column(3).should eql [40, 6, 38, 76]
   end
+
+  it "should mix columns for matrix_128" do
+    matrix_128 = Matrix_128.new([4, 102, 129, 229, 224, 203, 25, 154, 72, 248, 211, 122, 40, 6, 38, 76])
+    matrix_128.inverse_mix_columns
+
+    matrix_128.get_column(0).should eql [212, 191, 93, 48]
+    matrix_128.get_column(1).should eql [224, 180, 82, 174]
+    matrix_128.get_column(2).should eql [184, 65, 17, 241]
+    matrix_128.get_column(3).should eql [30, 39, 152, 229]
+  end
 end
