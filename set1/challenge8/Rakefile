@@ -1,0 +1,5 @@
+require_relative "./detect_aes.rb"
+
+task :default do
+  detect_aes_from_file "8.txt"
+end
