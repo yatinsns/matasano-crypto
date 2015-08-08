@@ -1,0 +1,4 @@
+process do |files|
+  execute("rspec spec")
+end
+
