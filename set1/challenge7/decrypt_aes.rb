@@ -1,4 +1,4 @@
-require './aes.rb'
+require './aes_128_ecb.rb'
 require '../challenge1/conversion.rb'
 
 def decrypt_file filename
