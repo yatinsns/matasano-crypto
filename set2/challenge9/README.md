@@ -1,5 +1,7 @@
 ##PKCS#7 Padding
 
+[RFC 5652](http://tools.ietf.org/html/rfc5652#section-6.3)
+
 The input length is a multiple of k octets, where k is greater than one.
 
 ___The input shall be padded at the trailing end with k-(lth mod k) octets all having value k-(lth mod k), where lth is the length of the input.___
