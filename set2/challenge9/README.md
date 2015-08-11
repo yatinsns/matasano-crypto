@@ -15,7 +15,7 @@ ___The input shall be padded at the trailing end with k-(lth mod k) octets all h
     k... k k -- if lth mod k = 0
 
 
-The padding can be remove unambiguously since all input is padded, including input values that are alreadt a multiple pf the block size, and no padding string is a suffix of another. This padding method is well defined if and only if k is less than 256.
+The padding can be remove unambiguously since all input is padded, including input values that are already a multiple of the block size, and no padding string is a suffix of another. This padding method is well defined if and only if k is less than 256.
 
 
 
