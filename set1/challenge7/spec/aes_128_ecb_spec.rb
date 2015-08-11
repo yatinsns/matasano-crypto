@@ -1,4 +1,4 @@
-require_relative "../aes.rb"
+require_relative "../aes_128_ecb.rb"
 
 describe "AES" do
   it "should encrypt 128 bits in ECB mode" do
