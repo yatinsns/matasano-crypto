@@ -1,6 +1,6 @@
-require "./matrix.rb"
-require "./mix_columns.rb"
-require "./mix_columns_constants.rb"
+require_relative "./matrix.rb"
+require_relative "./mix_columns.rb"
+require_relative "./mix_columns_constants.rb"
 
 module Matrix
   class Matrix_128

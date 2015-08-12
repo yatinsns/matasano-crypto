@@ -1,4 +1,4 @@
-require "./matrix.rb"
+require_relative "./matrix.rb"
 
 module Matrix
   class Matrix_128

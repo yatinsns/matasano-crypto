@@ -1,5 +1,5 @@
-require "./matrix.rb"
-require "./shift_row.rb"
+require_relative "./matrix.rb"
+require_relative "./shift_row.rb"
 
 module Matrix
   class Matrix_128

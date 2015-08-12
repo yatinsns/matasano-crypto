@@ -1,8 +1,8 @@
-require "../challenge1/conversion.rb"
-require "../challenge3/string_additions.rb"
+require_relative "../challenge1/conversion.rb"
+require_relative "../challenge3/string_additions.rb"
 
-require "./matrix_aes_additions.rb"
-require "./matrix_operations.rb"
+require_relative "./matrix_aes_additions.rb"
+require_relative "./matrix_operations.rb"
 
 include Matrix
 

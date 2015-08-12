@@ -1,5 +1,5 @@
-require "./substitution_constants.rb"
-require "../challenge1/conversion.rb"
+require_relative "./substitution_constants.rb"
+require_relative "../challenge1/conversion.rb"
 
 module Substitution
   def self.sub_byte(byte)

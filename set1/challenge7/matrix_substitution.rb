@@ -1,5 +1,5 @@
-require "./matrix.rb"
-require "./substitution.rb"
+require_relative "./matrix.rb"
+require_relative "./substitution.rb"
 
 module Matrix
   class Matrix_128

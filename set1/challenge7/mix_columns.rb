@@ -1,4 +1,4 @@
-require "./mix_columns_constants.rb"
+require_relative "./mix_columns_constants.rb"
 
 module MixColumns
   def self.mult_2(byte)

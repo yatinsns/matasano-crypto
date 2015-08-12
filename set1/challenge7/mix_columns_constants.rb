@@ -1,4 +1,4 @@
-require "./matrix.rb"
+require_relative "./matrix.rb"
 
 module MixColumns
   def self.mix_columns_matrix_128
