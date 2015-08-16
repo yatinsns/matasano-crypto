@@ -27,7 +27,7 @@ module AES
   # Encryption AES-128-CBC
   
   def self.encrypt_128_cbc(message, cipher_key, should_pad)
-    message = pkcs7_padding_add(message, 16) if should_pad
+    message = PKCS7::pkcs7_padding_add(message, 16) if should_pad
     vector_matrix_128 = initialization_matrix_128
     result_bytes = message.scan(/.{1,16}/).map do |message_part|
       message_matrix_128 = Matrix_128.new_with_string message_part
