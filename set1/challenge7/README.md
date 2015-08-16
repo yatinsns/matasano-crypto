@@ -36,12 +36,28 @@ or
 
 ##### encryptyion
 
-	$ echo -n "abcdefghijklmnop" | openssl aes-128-ecb -K '59454c4c4f57205355424d4152494e45' -nosalt -v -nopad -out result1.bin
+	$ echo -n "abcdefghijklmnop" | openssl aes-128-ecb -K '59454c4c4f57205355424d4152494e45' -nosalt -v -nopad -out result.bin
+	$ openssl enc -base64 -in result.bin
 
 ##### decryption
 
-	$ openssl aes-128-ecb -d -K '59454c4c4f57205355424d4152494e45' -nosalt -nopad -in output.bin
-	$ openssl enc -base64 -in output.bin
+	$ openssl aes-128-ecb -d -K '59454c4c4f57205355424d4152494e45' -nosalt -nopad -in result.bin
+
+###
+---
+
+### aes-128-cbc mode with cipher key
+
+
+##### encryptyion
+
+	$ echo -n "abcdefghijklmnop" | openssl aes-128-cbc -K '59454c4c4f57205355424d4152494e45' -iv '00000000000000000000000000000000' -nosalt -v -nopad -out result.bin
+	$ openssl enc -base64 -in result.bin
+
+##### decryption
+
+	$ openssl aes-128-cbc -d -K '59454c4c4f57205355424d4152494e45' -iv '00000000000000000000000000000000' -nosalt -nopad -in result.bin
+
 	
 Note:
 
