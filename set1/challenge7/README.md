@@ -26,7 +26,7 @@ or
 
 	$ echo -n "YWJjZGVmZ2hpamtsbW5vcA==" | openssl enc -base64 -d -A
 	
-'-A' option required for bigger encrypted data.
+`-A` option required for bigger encrypted data.
 
 ###
 ---
@@ -62,9 +62,9 @@ or
 Note:
 
 * key should be in hexadecimal format
-* 'echo' adds newline character at end. So use 'echo -n' instead. 
-* Use 'hexdump -C' to check output of openssl commands.
-* '-nopad' option is added to remove OpenSSL's PKCS#7 padding to ensure there are full blocks. Refer [this](http://crypto.stackexchange.com/questions/12621/why-does-openssl-append-extra-bytes-when-encrypting-with-aes-8-ecb) for more details.
+* `echo` adds newline character at end. So use `echo -n` instead. 
+* Use `hexdump -C` to check output of openssl commands.
+* `-nopad` option is added to remove OpenSSL's PKCS#7 padding to ensure there are full blocks. Refer [this](http://crypto.stackexchange.com/questions/12621/why-does-openssl-append-extra-bytes-when-encrypting-with-aes-8-ecb) for more details.
 * If you want to use PKCS#7 padding, don't use `-nopad` flog.
 
 ###
