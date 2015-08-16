@@ -2,51 +2,61 @@ require "./aes.rb"
 require "../../set2/challenge9/pkcs7.rb"
 
 module AES
-  def self.encrypt_128_ecb(message, cipher_key, should_pad)
-    message = PKCS7::pkcs7_padding_add(message, 16) if should_pad
-    result_binary = message.scan(/.{1,16}/).map do |message_part|
-      self.encrypt_128_ecb_partial(message_part, cipher_key)
-    end.join
 
-    encode_to_base64(decode_from_binary(result_binary))
-  end
+  # Helper methods
 
-  def self.encrypt_128_ecb_partial(message, cipher_key)
-    state_matrix_128 = Matrix_128.new_with_string(message)
-    cipher_matrix_128 = Matrix_128.new_with_string(cipher_key)
-
-    result_matrix_128 = block_cipher_encryption(state_matrix_128,
-                                                cipher_matrix_128)
-    result_matrix_128.get_bytes.map do |i|
-      i.to_s(2).fixed_width_length_with_left_padding(8, "0")
-    end.join
-  end
-
-  def self.decrypt_128_ecb(message_base64, cipher_key, is_padded)
-    binary_string = encode_to_binary(decode_from_base64(message_base64))
-    bytes = binary_string.scan(/.{8}/).map do |byte_string|
+  def self.get_bytes_from_base64(message_base64)
+    message_binary = encode_to_binary(decode_from_base64(message_base64))
+    message_binary.scan(/.{8}/).map do |byte_string|
       byte_string.to_i 2
     end
-    
-    result_bytes = bytes.each_slice(16).map do |sliced_bytes|
-      self.decrypt_128_ecb_partial(sliced_bytes, cipher_key)
-    end.flatten
+  end
 
-    result_bytes = PKCS7::pkcs7_padding_remove_bytes(result_bytes) if is_padded
-
-    result_binary = result_bytes.map do |i|
-      i.to_s(2).fixed_width_length_with_left_padding(8, "0")
+  def self.get_base64_from_bytes(message_bytes)
+    result_binary = message_bytes.map do |i|
+        i.to_s(2).fixed_width_length_with_left_padding(8, "0")
     end.join
-
     encode_to_base64(decode_from_binary(result_binary))
   end
 
-  def self.decrypt_128_ecb_partial(message_bytes, cipher_key)
-    state_matrix_128 = Matrix_128.new(message_bytes)
-    cipher_matrix_128 = Matrix_128.new_with_string(cipher_key)
+  # Encryption AES-128-ECB
 
-    result_matrix_128 = block_cipher_decryption(state_matrix_128,
-                                                cipher_matrix_128)
-    result_matrix_128.get_bytes
+  def self.encrypt_128_ecb(message, cipher_key, should_pad)
+    message = PKCS7::pkcs7_padding_add(message, 16) if should_pad
+
+    result_bytes = message.scan(/.{1,16}/).map do |message_part|
+      message_matrix_128 = Matrix_128.new_with_string message_part
+      cipher_matrix_128 = Matrix_128.new_with_string cipher_key
+      encrypt_128_ecb_block(message_matrix_128, cipher_matrix_128).get_bytes
+    end.flatten
+
+    get_base64_from_bytes result_bytes
+  end
+
+  def self.encrypt_128_ecb_block(message_matrix_128, cipher_matrix_128)
+    block_cipher_encryption(message_matrix_128, cipher_matrix_128)
+  end
+
+  # Decryption AES-128-ECB
+
+  def self.decrypt_128_ecb_base64(message_base64, cipher_key, is_padded)
+    bytes = get_bytes_from_base64 message_base64
+    result_bytes = decrypt_128_ecb_bytes(bytes, cipher_key)
+    result_bytes = PKCS7::pkcs7_padding_remove_bytes(result_bytes) if is_padded
+    get_base64_from_bytes result_bytes
+  end
+
+   def self.decrypt_128_ecb_bytes(message_bytes, cipher_key)
+    message_bytes.each_slice(16).map do |slice|
+      bytes = slice.fill(0, slice.length...16)
+      message_matrix_128 = Matrix_128.new bytes
+      cipher_matrix_128 = Matrix_128.new_with_string cipher_key
+
+      decrypt_128_ecb_block(message_matrix_128, cipher_matrix_128).get_bytes
+    end.flatten
+  end
+
+  def self.decrypt_128_ecb_block(message_matrix_128, cipher_matrix_128)
+    block_cipher_decryption(message_matrix_128, cipher_matrix_128)
   end
 end
