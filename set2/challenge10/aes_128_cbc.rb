@@ -1,5 +1,6 @@
 require_relative "../../set1/challenge7/aes.rb"
 require_relative "./matrix_xor.rb"
+require_relative "../challenge9/pkcs7.rb"
 
 module AES
 
@@ -26,8 +27,9 @@ module AES
   # Encryption AES-128-CBC
   
   def self.encrypt_128_cbc(message, cipher_key)
+    padded_message = pkcs7_padding_add(message, 16)
     vector_matrix_128 = initialization_matrix_128
-    result_bytes = message.scan(/.{1,16}/).map do |message_part|
+    result_bytes = padded_message.scan(/.{1,16}/).map do |message_part|
       message_matrix_128 = Matrix_128.new_with_string message_part
       cipher_matrix_128 = Matrix_128.new_with_string cipher_key
       
@@ -52,7 +54,7 @@ module AES
   def self.decrypt_128_cbc_base64(message_base64, cipher_key)
     bytes = get_bytes_from_base64 message_base64
     result_bytes = decrypt_128_cbc_bytes(bytes, cipher_key)
-    get_base64_from_bytes result_bytes
+    get_base64_from_bytes PKCS7::pkcs7_padding_remove_bytes(result_bytes)
   end
 
   def self.decrypt_128_cbc_bytes(message_bytes, cipher_key)
