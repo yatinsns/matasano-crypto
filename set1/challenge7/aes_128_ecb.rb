@@ -1,7 +1,9 @@
 require "./aes.rb"
+require "../../set2/challenge9/pkcs7.rb"
 
 module AES
-  def self.encrypt_128_ecb(message, cipher_key)
+  def self.encrypt_128_ecb(message, cipher_key, should_pad)
+    message = PKCS7::pkcs7_padding_add(message, 16) if should_pad
     result_binary = message.scan(/.{1,16}/).map do |message_part|
       self.encrypt_128_ecb_partial(message_part, cipher_key)
     end.join
@@ -20,10 +22,12 @@ module AES
     end.join
   end
 
-  def self.decrypt_128_ecb(message_base64, cipher_key)
+  def self.decrypt_128_ecb(message_base64, cipher_key, is_padded)
     bytes = encode_to_binary(decode_from_base64(message_base64)).scan(/.{8}/).map do |byte_string|
       byte_string.to_i 2
     end
+
+    bytes = PKCS7::pkcs7_padding_remove_bytes bytes if is_padded
 
     result_binary = bytes.each_slice(16).map do |slice|
       message = slice.map do |num|

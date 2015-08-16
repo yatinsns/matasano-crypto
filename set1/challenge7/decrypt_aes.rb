@@ -6,6 +6,6 @@ def decrypt_file filename
     line.chomp
   end.join
   
-  base64_string = AES::decrypt_128_ecb(lines, "YELLOW SUBMARINE")
+  base64_string = AES::decrypt_128_ecb(lines, "YELLOW SUBMARINE", false)
   decode_from_base64(base64_string)
 end
