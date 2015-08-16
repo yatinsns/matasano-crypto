@@ -1,24 +1,9 @@
 require "./aes.rb"
 require "../../set2/challenge9/pkcs7.rb"
+require "./conversion_helper.rb"
 
 module AES
-
-  # Helper methods
-
-  def self.get_bytes_from_base64(message_base64)
-    message_binary = encode_to_binary(decode_from_base64(message_base64))
-    message_binary.scan(/.{8}/).map do |byte_string|
-      byte_string.to_i 2
-    end
-  end
-
-  def self.get_base64_from_bytes(message_bytes)
-    result_binary = message_bytes.map do |i|
-        i.to_s(2).fixed_width_length_with_left_padding(8, "0")
-    end.join
-    encode_to_base64(decode_from_binary(result_binary))
-  end
-
+  
   # Encryption AES-128-ECB
 
   def self.encrypt_128_ecb(message, cipher_key, should_pad)

@@ -1,24 +1,11 @@
 require_relative "../../set1/challenge7/aes.rb"
 require_relative "./matrix_xor.rb"
 require_relative "../challenge9/pkcs7.rb"
+require_relative "../../set1/challenge7/conversion_helper.rb"
 
 module AES
 
   # Helper methods
-  
-  def self.get_bytes_from_base64(message_base64)
-    message_binary = encode_to_binary(decode_from_base64(message_base64))
-    message_binary.scan(/.{8}/).map do |byte_string|
-      byte_string.to_i 2
-    end
-  end
-
-  def self.get_base64_from_bytes(message_bytes)
-    result_binary = message_bytes.map do |i|
-        i.to_s(2).fixed_width_length_with_left_padding(8, "0")
-    end.join
-    encode_to_base64(decode_from_binary(result_binary))
-  end
 
   def self.initialization_matrix_128
     Matrix_128.new_with_string("".ljust(16, 0.chr))
