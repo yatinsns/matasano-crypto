@@ -38,8 +38,8 @@ def encryption_oracle(input)
   cipher = AESRandom::generate_random_cipher
   puts "Applying cipher: #{cipher}"
   value = case cipher
-          when "ecb" then AES::encrypt_128_ecb(padded_input, key, true)
-          when "cbc" then AES::encrypt_128_cbc(padded_input, key, true, AESRandom::random_iv_bytes(16))
+          when AESRandom::CIPHERS[0] then AES::encrypt_128_ecb(padded_input, key, true)
+          when AESRandom::CIPHERS[1] then AES::encrypt_128_cbc(padded_input, key, true, AESRandom::random_iv_bytes(16))
           end
   value
 end
@@ -56,7 +56,7 @@ def detect_cipher_from_base64_text(base64_text)
     binary_128_strings.count(string) > 1
   end
 
-  cipher = duplicates.uniq.length > 0 ? "ecb" : "cbc"
+  cipher = duplicates.uniq.length > 0 ? AESRandom::CIPHERS[0] : AESRandom::CIPHERS[1]
   puts "Detected cipher: #{cipher}"
   cipher
 end
