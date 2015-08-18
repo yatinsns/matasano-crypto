@@ -10,6 +10,14 @@ describe "Detection Oracle" do
       cipher = AESRandom::generate_random_cipher
       expect(cipher).to match(/(cbc|ecb)/)
     end
+
+    it "should generate random iv bytes array" do
+      random_iv_bytes = AESRandom::random_iv_bytes(16)
+      expect(random_iv_bytes.length).to eql(16)
+      random_iv_bytes.each do |byte|
+        expect(byte).to be < 256
+      end
+    end
   end
 
   it "should encrypt" do
