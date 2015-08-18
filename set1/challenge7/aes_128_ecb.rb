@@ -1,6 +1,6 @@
-require "./aes.rb"
-require "../../set2/challenge9/pkcs7.rb"
-require "./conversion_helper.rb"
+require_relative "./aes.rb"
+require_relative "../../set2/challenge9/pkcs7.rb"
+require_relative "./conversion_helper.rb"
 
 module AES
   
