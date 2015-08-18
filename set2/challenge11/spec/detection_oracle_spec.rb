@@ -22,10 +22,10 @@ describe "Detection Oracle" do
 
   it "should encrypt" do
     input = "abcdefghijklmnop"
-    puts encryption_oracle(input)
+    expect(encryption_oracle(input).length).to be > 0
   end
 
   it "should detect" do
-    detect_cipher(method :encryption_oracle)
+    expect(detect_cipher(method :encryption_oracle)).to match(/(ecb|cbc)/)
   end
 end

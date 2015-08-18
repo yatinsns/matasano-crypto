@@ -36,6 +36,7 @@ def encryption_oracle(input)
   padded_input = add_padding_to_text input
   key = AESRandom::generate_random_key 16
   cipher = AESRandom::generate_random_cipher
+  puts "Applying cipher: #{cipher}"
   value = case cipher
           when "ecb" then AES::encrypt_128_ecb(padded_input, key, true)
           when "cbc" then AES::encrypt_128_cbc(padded_input, key, true, AESRandom::random_iv_bytes(16))
@@ -49,5 +50,15 @@ end
 
 def detect_cipher(cipher)
   input = 'A' * 50
-  puts cipher.call(input)
+  ciphered_base64 = cipher.call(input)
+  binary_string = encode_to_binary(decode_from_base64(ciphered_base64))
+  binary_128_strings = binary_string.scan(/.{1,128}/)
+
+  duplicates = binary_128_strings.select do |string|
+    binary_128_strings.count(string) > 1
+  end
+
+  cipher = duplicates.uniq.length > 0 ? "ecb" : "cbc"
+  puts "Detected cipher: #{cipher}"
+  cipher
 end
