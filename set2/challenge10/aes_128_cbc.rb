@@ -4,18 +4,13 @@ require_relative "../challenge9/pkcs7.rb"
 require_relative "../../set1/challenge7/conversion_helper.rb"
 
 module AES
-
-  # Helper methods
-
-  def self.initialization_matrix_128
-    Matrix_128.new_with_string("".ljust(16, 0.chr))
-  end
+  DEFAULT_INIT_BYTES = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
   # Encryption AES-128-CBC
   
-  def self.encrypt_128_cbc(message, cipher_key, should_pad)
+  def self.encrypt_128_cbc(message, cipher_key, should_pad, init_16_bytes=DEFAULT_INIT_BYTES)
     message = PKCS7::pkcs7_padding_add(message, 16) if should_pad
-    vector_matrix_128 = initialization_matrix_128
+    vector_matrix_128 = Matrix_128.new init_16_bytes
     result_bytes = message.scan(/.{1,16}/).map do |message_part|
       message_matrix_128 = Matrix_128.new_with_string message_part
       cipher_matrix_128 = Matrix_128.new_with_string cipher_key
@@ -38,15 +33,15 @@ module AES
 
   # Decryption AES-128-CBC
 
-  def self.decrypt_128_cbc_base64(message_base64, cipher_key, is_padded)
+  def self.decrypt_128_cbc_base64(message_base64, cipher_key, is_padded, init_16_bytes=DEFAULT_INIT_BYTES)
     bytes = get_bytes_from_base64 message_base64
-    result_bytes = decrypt_128_cbc_bytes(bytes, cipher_key)
+    result_bytes = decrypt_128_cbc_bytes(bytes, cipher_key, init_16_bytes)
     result_bytes = PKCS7::pkcs7_padding_remove_bytes(result_bytes) if is_padded
     get_base64_from_bytes result_bytes
   end
 
-  def self.decrypt_128_cbc_bytes(message_bytes, cipher_key)
-    vector_matrix_128 = initialization_matrix_128
+  def self.decrypt_128_cbc_bytes(message_bytes, cipher_key, init_16_bytes)
+    vector_matrix_128 = Matrix_128.new init_16_bytes
     
     message_bytes.each_slice(16).map do |slice|
       bytes = slice.fill(0, slice.length...16)
