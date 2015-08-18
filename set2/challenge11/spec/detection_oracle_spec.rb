@@ -24,4 +24,8 @@ describe "Detection Oracle" do
     input = "abcdefghijklmnop"
     puts encryption_oracle(input)
   end
+
+  it "should detect" do
+    detect_cipher(method :encryption_oracle)
+  end
 end

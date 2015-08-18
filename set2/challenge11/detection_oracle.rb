@@ -35,12 +35,19 @@ end
 def encryption_oracle(input)
   padded_input = add_padding_to_text input
   key = AESRandom::generate_random_key 16
-  case AESRandom::generate_random_cipher
-  when "ebc" then AES::encrypt_128_ecb(padded_input, key, true)
-  when "cbc" then AES::encrypt_128_cbc(padded_input, key, true, AESRandom::random_iv_bytes(16))
-  end
+  cipher = AESRandom::generate_random_cipher
+  value = case cipher
+          when "ecb" then AES::encrypt_128_ecb(padded_input, key, true)
+          when "cbc" then AES::encrypt_128_cbc(padded_input, key, true, AESRandom::random_iv_bytes(16))
+          end
+  value
 end
 
 def add_padding_to_text(text)
-  AESRandom::random_padding + "text" + AESRandom::random_padding
+  AESRandom::random_padding + text + AESRandom::random_padding
+end
+
+def detect_cipher(cipher)
+  input = 'A' * 50
+  puts cipher.call(input)
 end
