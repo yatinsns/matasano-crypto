@@ -48,10 +48,8 @@ def add_padding_to_text(text)
   AESRandom::random_padding + text + AESRandom::random_padding
 end
 
-def detect_cipher(cipher)
-  input = 'A' * 50
-  ciphered_base64 = cipher.call(input)
-  binary_string = encode_to_binary(decode_from_base64(ciphered_base64))
+def detect_cipher_from_base64_text(base64_text)
+  binary_string = encode_to_binary(decode_from_base64(base64_text))
   binary_128_strings = binary_string.scan(/.{1,128}/)
 
   duplicates = binary_128_strings.select do |string|
@@ -61,4 +59,9 @@ def detect_cipher(cipher)
   cipher = duplicates.uniq.length > 0 ? "ecb" : "cbc"
   puts "Detected cipher: #{cipher}"
   cipher
+end
+
+def detect_cipher(cipher)
+  input = 'A' * 50
+  detect_cipher_from_base64_text cipher.call(input)
 end
