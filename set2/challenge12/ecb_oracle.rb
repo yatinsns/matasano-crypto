@@ -5,12 +5,16 @@ require_relative "../../set1/challenge7/aes_128_ecb.rb"
 require_relative "../../set2/challenge11/detection_oracle.rb"
 require_relative "../../set2/challenge9/pkcs7.rb"
 
+key = ""
+
 def add_suffix(string)
   suffix_base64 = "Um9sbGluJyBpbiBteSA1LjAKV2l0aCBteSByYWctdG9wIGRvd24gc28gbXkgaGFpciBjYW4gYmxvdwpUaGUgZ2lybGllcyBvbiBzdGFuZGJ5IHdhdmluZyBqdXN0IHRvIHNheSBoaQpEaWQgeW91IHN0b3A/IE5vLCBJIGp1c3QgZHJvdmUgYnkK"
   string + decode_from_base64(suffix_base64)
 end
 
-def ecb_oracle(string, key)
+def ecb_oracle(string)
+  block_size = 16
+  key ||= AESRandom::generate_random_key block_size
   AES::encrypt_128_ecb(add_suffix(string), key, true)
 end
 
@@ -19,19 +23,26 @@ def get_block_from_base64(base64_string, block_number, block_size)
                                           block_size)
 end
 
-def hack_ecb_oracle_length block_size
-  key = AESRandom::generate_random_key block_size
-  decode_from_base64(ecb_oracle("", key)).length
+def hack_ecb_oracle_length
+  decode_from_base64(ecb_oracle "").length
+end
+
+def is_ecb_detected?(string, block_size)
+  strings = string.chars.each_slice(block_size).map(&:join)
+  strings[0] == strings[1]
+end
+
+def hack_ecb_oracle_block_size
+  max_block_size = hack_ecb_oracle_length
+  (1..max_block_size).find do |block_size|
+    string = "AA" * block_size 
+    result_base64 = ecb_oracle string
+    is_ecb_detected?(decode_from_base64(result_base64), block_size)
+  end
 end
 
 def hack_ecb_oracle
-  # Need to confirm?
-  block_size = 16
-
-  # Need to confirm if it is ecb?
-
-  # Hack it
-  key = AESRandom::generate_random_key block_size
+  block_size = hack_ecb_oracle_block_size
   output_length = hack_ecb_oracle_length block_size
 
   (1..output_length).inject("") do |output, output_byte_number|
@@ -39,11 +50,11 @@ def hack_ecb_oracle
     prefix_length = block_number * block_size - output_byte_number
     prefix = "A" * prefix_length
 
-    result_base64 = ecb_oracle(prefix, key)
+    result_base64 = ecb_oracle prefix
     result_block = get_block_from_base64(result_base64, block_number, block_size)
 
     output_byte = (0..255).find do |byte|
-      temp_base64 = ecb_oracle(prefix + output + byte.chr, key)
+      temp_base64 = ecb_oracle(prefix + output + byte.chr)
       temp_block = get_block_from_base64(temp_base64, block_number, block_size)
       result_block == temp_block
     end
