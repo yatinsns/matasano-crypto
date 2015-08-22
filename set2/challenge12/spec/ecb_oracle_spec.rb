@@ -16,4 +16,8 @@ describe "ECB Oracle" do
     expected_length = PKCS7::pkcs7_padding_add(EXPECTED_RESULT, 16).length
     expect(hack_ecb_oracle_length).to eql(expected_length)
   end
+
+  it "should get block_size" do
+    expect(hack_ecb_oracle_block_size).to eql(16)
+  end
 end
