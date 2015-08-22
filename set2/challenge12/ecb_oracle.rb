@@ -33,6 +33,7 @@ def is_ecb_detected?(string, block_size)
 end
 
 def hack_ecb_oracle_block_size
+  # FIXME: Need to discuss
   max_block_size = hack_ecb_oracle_length
   (1..max_block_size).find do |block_size|
     string = "AA" * block_size 
@@ -42,6 +43,7 @@ def hack_ecb_oracle_block_size
 end
 
 def hack_ecb_oracle
+  # FIXME: It takes apx 25 minutes to pass test :(. Some blunder.
   block_size = hack_ecb_oracle_block_size
   output_length = hack_ecb_oracle_length block_size
 
