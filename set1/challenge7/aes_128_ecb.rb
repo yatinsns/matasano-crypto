@@ -8,8 +8,10 @@ module AES
 
   def self.encrypt_128_ecb(message, cipher_key, should_pad)
     message = PKCS7::pkcs7_padding_add(message, 16) if should_pad
+    message_chunks = message.chars.each_slice(16).map(&:join)
 
-    result_bytes = message.scan(/.{1,16}/).map do |message_part|
+    result_bytes = message_chunks.map do |message_part|
+      puts "message: #{message_part}"
       message_matrix_128 = Matrix_128.new_with_string message_part
       cipher_matrix_128 = Matrix_128.new_with_string cipher_key
       encrypt_128_ecb_block(message_matrix_128, cipher_matrix_128).get_bytes
