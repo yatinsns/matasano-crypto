@@ -11,7 +11,9 @@ module AES
   def self.encrypt_128_cbc(message, cipher_key, should_pad, init_16_bytes=DEFAULT_INIT_BYTES)
     message = PKCS7::pkcs7_padding_add(message, 16) if should_pad
     vector_matrix_128 = Matrix_128.new init_16_bytes
-    result_bytes = message.scan(/.{1,16}/).map do |message_part|
+    message_parts = message.chars.each_slice(16).map(&:join)
+
+    result_bytes = message_parts.map do |message_part|
       message_matrix_128 = Matrix_128.new_with_string message_part
       cipher_matrix_128 = Matrix_128.new_with_string cipher_key
       
