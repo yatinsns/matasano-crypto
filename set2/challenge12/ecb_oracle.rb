@@ -47,7 +47,7 @@ def hack_ecb_oracle
   output_length = hack_ecb_oracle_length
 
   done = false
-  (1..output_length).inject("") do |output, output_byte_number|
+  result = (1..output_length).inject("") do |output, output_byte_number|
     unless done
       block_number = (Float(output_byte_number) / block_size).ceil
       prefix_length = block_number * block_size - output_byte_number
@@ -72,5 +72,6 @@ def hack_ecb_oracle
 
     output
   end
+  PKCS7::pkcs7_padding_remove result
 end
 
