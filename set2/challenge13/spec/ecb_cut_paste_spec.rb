@@ -10,4 +10,9 @@ describe "ECB cut and paste" do
     cipher_text = oracle "yatinsns@gmail.com"
     expect(decrypt(cipher_text)).to match(/email=yatinsns@gmail.com&uid=.*&role=user/)
   end
+
+  it "should hack role in oracle for email" do
+    encoding = hack_role_in_oracle_for_email
+    expect(encoding).to match(/email=.*&uid=.*&role=admin/)
+  end
 end
